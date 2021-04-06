@@ -13,6 +13,7 @@ index_to_uri = {}
 mat = None
 
 def load():
+	print('b')
 	global tracks, uri_to_index, index_to_uri, mat
 	if mat == None:
 		dataset = pickle.load(open('data/dataset.pkl', 'rb'))
@@ -21,7 +22,7 @@ def load():
 		tracks = dataset[0]
 		uri_to_index = dataset[1]
 		index_to_uri = dataset[2]
-
+		print(len(uri_to_index))
 
 
 def similar_music(track_uri):
@@ -37,6 +38,7 @@ def similar_music(track_uri):
 
 @app.route('/', methods=['GET'])
 def home():
+	load()
 	res = similar_music(request.args.get('uri'))
 	return jsonify(res)
 
