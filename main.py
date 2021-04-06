@@ -51,11 +51,21 @@ def similar_music(track_uri, n=10):
 
 	return [index_to_uri[i] for i in top]
 
+def find_uri(name, artist):
+	track_uri = list(filter(lambda t: t['track_name'] == name and t['artist_name'] == artist, tracks.values()))
+	
+	if len(track_uri) == 0: return ''
+	return track_uri[0]['track_uri']
+
 @app.route('/', methods=['GET'])
 def home():
 	load()
 	uri = request.args.get('uri')
 	n = request.args.get('n')
+	if n == None: n = 10
+	
+	if uri == None:
+		uri = find_uri(request.args.get('name'), request.args.get('artist'))
 
 	res = similar_music(uri, n)
 	return jsonify(res)
