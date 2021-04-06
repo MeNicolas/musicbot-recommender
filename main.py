@@ -55,7 +55,8 @@ def similar_music(track_uri, n=10):
 def home():
 	load()
 	uri = request.args.get('uri')
-	n = request.args.get('n') || 10
+	n = request.args.get('n')
+
 	res = similar_music(uri, n)
 	return jsonify(res)
 
