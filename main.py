@@ -3,6 +3,8 @@ from flask import request
 from flask import jsonify
 import pickle
 import numpy as np
+from pathlib import Path
+import wget
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -16,6 +18,11 @@ def load():
 	print('b')
 	global tracks, uri_to_index, index_to_uri, mat
 	if mat == None:
+		if not Path("data/dataset.pkl").is_file():
+			wget.download('https://nicod.s3.fr-par.scw.cloud/dataset.pkl', 'data/dataset.pkl')
+		if not Path("data/mat.pkl").is_file():
+			wget.download('https://nicod.s3.fr-par.scw.cloud/mat.pkl', 'data/mat.pkl')
+		
 		dataset = pickle.load(open('data/dataset.pkl', 'rb'))
 		mat = pickle.load(open('data/mat.pkl', 'rb'))
 		
@@ -24,6 +31,7 @@ def load():
 		index_to_uri = dataset[2]
 		print(len(uri_to_index))
 
+load()
 
 def similar_music(track_uri):
 	if not track_uri in uri_to_index: return []
