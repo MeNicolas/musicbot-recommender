@@ -54,7 +54,9 @@ def similar_music(track_uri, n=10):
 @app.route('/', methods=['GET'])
 def home():
 	load()
-	res = similar_music(request.args.get('uri'))
+	uri = request.args.get('uri')
+	n = request.args.get('n') || 10
+	res = similar_music(uri, n)
 	return jsonify(res)
 
 if __name__ == "__main__":
