@@ -33,13 +33,20 @@ def load():
 
 load()
 
-def similar_music(track_uri):
+def similar_music(track_uri, n=10):
 	if not track_uri in uri_to_index: return []
 
 	i0 = uri_to_index[track_uri]
 
 	print(tracks[index_to_uri[i0]]['track_name'])
-	top = np.argpartition(mat[i0,:].toarray()[0], -10)[-10:]
+	
+	col = np.array(list(map(lambda x: x[0], mat[:i0,i0].toarray())))
+	row = mat[i0,i0:].toarray()[0]
+
+	counts = np.concatenate((col, row), axis=0)
+	top = np.argpartition(counts, -n)[-n:]
+	
+	
 	print([tracks[index_to_uri[i]]['track_name']+' - '+tracks[index_to_uri[i]]['artist_name'] for i in top])
 
 	return [index_to_uri[i] for i in top]
