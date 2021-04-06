@@ -22,7 +22,7 @@ def load():
 		uri_to_index = dataset[1]
 		index_to_uri = dataset[2]
 
-load()
+
 
 def similar_music(track_uri):
 	if not track_uri in uri_to_index: return []
