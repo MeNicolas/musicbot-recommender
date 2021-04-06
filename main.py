@@ -13,6 +13,7 @@ index_to_uri = {}
 mat = None
 
 def load():
+	global tracks, uri_to_index, index_to_uri, mat
 	if mat == None:
 		dataset = pickle.load(open('data/dataset.pkl', 'rb'))
 		mat = pickle.load(open('data/mat.pkl', 'rb'))
@@ -21,8 +22,9 @@ def load():
 		uri_to_index = dataset[1]
 		index_to_uri = dataset[2]
 
+load()
+
 def similar_music(track_uri):
-	load()
 	if not track_uri in uri_to_index: return []
 
 	i0 = uri_to_index[track_uri]
